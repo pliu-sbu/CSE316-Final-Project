@@ -12,7 +12,6 @@ class EditScreen extends Component {
 
     state = {
         name: '',
-        owner: '',
     }
 
     handleChange = (e) => {
@@ -48,7 +47,14 @@ class EditScreen extends Component {
         }
         return (
             <div className="container white">
-                <h5 className="grey-text text-darken-3">text to add
+                <h5 className="grey-text text-darken-3">
+                    <i class="small zoom material-icons">zoom_in</i>
+                    <i class="small zoom material-icons">zoom_out</i>
+                    &nbsp;&nbsp;
+                    <Button className="save-btn waves-effect">Save</Button>
+                    &nbsp;
+                    <Link to="/"><Button className="close-btn waves-effect">Close</Button></Link>
+                    &nbsp;&nbsp;
                 <Modal
                         header="Confirm Deleting Wireframe"
                         trigger={<p className="btn trashcan">🗑</p>}
@@ -67,13 +73,20 @@ class EditScreen extends Component {
                     <label htmlFor="email" className={wireframe.name === "" ? "" : "active"}>Name</label>
                     <input className="active" type="text" name="name" id="name" onChange={this.handleChange} value={wireframe.name} />
                 </div>
-                <div className="input-field">
-                    <label htmlFor="password" className={wireframe.owner === "" ? "" : "active"}>Owner</label>
-                    <input className="active" type="text" name="owner" id="owner" onChange={this.handleChange} value={wireframe.owner} />
+                <div class="control-collection">
+                    <div className="rectangle control-demo"></div>
+                    <label>Container</label>
+                    <br/><br/>
+                    <div className="control-demo">Prompt for Input:</div>
+                    <label>Label</label>
+                    <br/><br/>
+                    <button className="button-demo control-demo" disabled>Submit</button><br/>
+                    <label>Button</label>
+                    <br/><br/>
+                    <input className="input-demo control-demo" placeholder='Input' disabled></input>
+                    <br/>
+                    <label>Textfield</label>
                 </div>
-                <Link to={'/wireframe/' + wireframe.id + "/new"}>
-                    <Button floating large className="red addItem">+</Button>
-                </Link>
             </div >
         );
     }
@@ -99,7 +112,12 @@ const mapDispatchToProps = dispatch => ({
 
 export default compose(
     connect(mapStateToProps, mapDispatchToProps),
-    firestoreConnect([
-        { collection: 'wireframes' },
+    firestoreConnect((props) => [
+        {
+            collection: 'wireframes',
+            where: [
+                ['uid', '==', props.auth.uid || ""]
+            ]
+        }
     ]),
 )(EditScreen);

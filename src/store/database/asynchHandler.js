@@ -69,7 +69,7 @@ const moveWireframeToTopHelper = (wireframe) => {
         const batch = fireStore.batch();
         let initRef = fireStore.collection('wireframes').doc(wireframe.id);
         batch.update(initRef, { key: -2 });
-        fireStore.collection("wireframes").get().then((querySnapshot) => { //need to perform query here, will do that later
+        fireStore.collection("wireframes").where("uid", "==", wireframe.uid).get().then((querySnapshot) => { //need to perform query here, will do that later
             querySnapshot.docs.forEach((doc) => {
                 let docref = fireStore.collection('wireframes').doc(doc.id);
                 /*fireStore.runTransaction((transaction) => {

@@ -55,12 +55,14 @@ h5.grey-text.text-darken-3{
 }
 
 .trashcan{
-  margin-top: 6%;
-  margin-left: 50%;
-  border-radius: 15px;
-  padding: 15px 0 15px 0;
-  width: 80px;
-  height:65px;
+  padding: 0px ;
+  margin-top:17px !important;
+}
+.save-btn{
+  margin-top:-10px !important;
+}
+.close-btn{
+  margin-top:-10px !important;
 }
 input[type=text]:not(.browser-default),
 input[type=email]:not(.browser-default),
@@ -119,4 +121,17 @@ span.card-content{
   margin-right: auto;
   margin-top: 0px !important;
   margin-bottom: 5px !important;
+}
+
+.container.white{
+  width:25%;
+  float:left;
+}
+
+.control-collection{
+  text-align: center;
+}
+
+.rectangle{
+  margin:auto;
 }

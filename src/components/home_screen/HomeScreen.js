@@ -67,7 +67,7 @@ export default compose(
         {
             collection: 'wireframes',
             where: [
-                ['uid', '==', props.auth.uid]
+                ['uid', '==', props.auth.uid || ""]
             ]
         }
     ]),
