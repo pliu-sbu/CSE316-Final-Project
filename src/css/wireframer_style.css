@@ -22,7 +22,7 @@ div.banner {
   background-image: linear-gradient(to bottom,         
   #64B5F6, #1de9b6);
   color: white;
-  font-size: 48pt;
+  font-size: 36pt;
   border-color: black;
   border-width: 2px;
   border-style: solid;
@@ -133,14 +133,15 @@ form {
 }
 
 .save-btn,.close-btn{
-  border-radius: 20px;
+  border-radius: 10px;
+  height:35px !important;
 }
 
 .rectangle{
   height:50px;
   width: 50%;
   border-radius: 3px;
-  border: 1px solid black; /* THIS SHOULD CHANGE */
+  border: 1px solid black;
 }
 
 .control-demo:hover{
@@ -151,9 +152,14 @@ form {
   height:22px !important;
   width: 60% !important;
   border-radius: 3px;
-  border: 1px solid black !important; /* THIS SHOULD CHANGE */
+  border: 1px solid black !important;
 }
 
 .button-demo{
   color:black;
+}
+
+.wireframe{
+  border: 1px solid black !important;
+  overflow: auto;
 }
