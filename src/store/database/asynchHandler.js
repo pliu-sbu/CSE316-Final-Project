@@ -117,7 +117,7 @@ export const wireframeDeleteHandler = (wireframe) => (dispatch, getState) => {
     fireStore.collection("wireframes").doc(wireframe.id).delete().then(function () {
         console.log("Document successfully deleted!");
 
-        fireStore.collection("wireframes").get().then((querySnapshot) => {
+        fireStore.collection("wireframes").where("uid", "==", wireframe.uid).get().then((querySnapshot) => {
             querySnapshot.docs.forEach((doc) => {
                 let docref = fireStore.collection('wireframes').doc(doc.id);
                 let wireframekey = doc.data().key;

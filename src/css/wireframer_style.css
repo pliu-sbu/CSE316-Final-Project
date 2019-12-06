@@ -162,4 +162,5 @@ form {
 .wireframe{
   border: 1px solid black !important;
   overflow: auto;
+  background-color: white;
 }

@@ -6,12 +6,15 @@ import { firestoreConnect } from 'react-redux-firebase';
 import { wireframeChangeHandler } from '../../store/database/asynchHandler';
 import { wireframeDeleteHandler } from '../../store/database/asynchHandler';
 import { Modal, Button } from 'react-materialize';
+import ContainerControl from './ContainerControl';
 
 class EditScreen extends Component {
     markForDeletion = false;
 
     state = {
         name: '',
+        selectedControl: null,
+        controls: this.props.wireframe ? this.props.wireframe.controls : null,
     }
 
     handleChange = (e) => {
@@ -31,9 +34,33 @@ class EditScreen extends Component {
         this.props.wireframeDelete(this.props.wireframe);
     }
 
+    changePosition = (index, posObj) => {
+        let controls = this.state.controls ? this.state.controls : this.props.wireframe.controls;
+        controls[index].x = posObj.x;
+        controls[index].y = posObj.y;
+        this.setState(state => ({
+            ...state,
+            controls: controls,
+        }));
+        console.log(this.state.controls[index]);
+    }
+
+    changeSize = (index, sizeObj) => {
+        let controls = this.state.controls ? this.state.controls : this.props.wireframe.controls;
+        controls[index].width = sizeObj.width;
+        controls[index].height = sizeObj.height;
+        this.setState(state => ({
+            ...state,
+            controls: controls,
+        }));
+        console.log(this.state.controls[index]);
+    }
+
     render() {
         const auth = this.props.auth;
         const wireframe = this.props.wireframe;
+        let controls = this.state.controls ? this.state.controls : this.props.wireframe ? this.props.wireframe.controls : null;
+        console.log(controls);
         if (!auth.uid) {
             return <Redirect to="/" />;
         }
@@ -88,8 +115,41 @@ class EditScreen extends Component {
                         <br />
                         <label>Textfield</label>
                     </div>
-                </div><br/>
-                <div className="wireframe"></div>
+                </div><br />
+                <div className="properties">
+                    <strong>Properties</strong><hr />
+                    Text:
+                    <input className="text_prop" disabled={this.value ? false : true}></input>
+                    <br />
+                    Font Size:
+                    <input className="font-size_prop" disabled={this.value ? false : true}></input>
+                    Font color:&nbsp;
+                    <input className="font-color_prop" type="color" disabled={this.value ? false : true}></input>
+                    <br /><br />
+                    Background color:&nbsp;
+                    <input className="background-color_prop" type="color" disabled={this.value ? false : true}></input>
+                    <br /><br />
+                    Border color:&nbsp;
+                    <input className="border-color_prop" type="color" disabled={this.value ? false : true}></input>
+                    <br /><br />
+                    Border thickness:
+                    <input className="border-thickness_prop" disabled={this.value ? false : true}></input>
+                    <br />
+                    Border radius:
+                    <input className="border-radius_prop" disabled={this.value ? false : true}></input>
+
+                </div>
+                <div className="wireframe">
+                    {controls.map((control, index) => {
+                        switch (control.type) {
+                            case "container":
+                                return (<ContainerControl key={index} selectControl={(index) => this.setState(state => ({ ...state, selectedControl: this.state.controls[index] }))} index={index} control={control} changePosition={(index, posObj) => { this.changePosition(index, posObj) }} changeSize={(index, sizeObj) => { this.changeSize(index, sizeObj) }}></ContainerControl>);
+                            default:
+                                return "";
+                        }
+                    })}
+                </div><br />
+                <canvas id="rectSelection" width={this.state.selectedControl ? this.state.selectedControl.width + 2 : 0} height={this.state.selectedControl ? this.state.selectedControl.height + 2 : 0} left={this.state.selectedControl ? this.state.selectedControl.x + 1 : 0} top={this.state.selectedControl ? this.state.selectedControl.y + 1 : 0} style={{ border: "1px solid #d3d3d3" }} hidden={this.state.selectedControl ? false : true}></canvas>
             </div>
         );
     }
@@ -101,7 +161,6 @@ const mapStateToProps = (state, ownProps) => {
     const wireframe = wireframes ? wireframes[id] : null;
     if (wireframe)
         wireframe.id = id;
-
     return {
         wireframe,
         auth: state.firebase.auth,

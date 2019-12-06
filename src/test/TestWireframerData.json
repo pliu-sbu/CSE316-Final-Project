@@ -12,9 +12,9 @@
 					"y": 0,
 					"width": 400,
 					"height": 400,
-					"border-color": "black",
+					"border-color": "#000000",
 					"background-color": "transparent",
-					"border-width": "thin",
+					"border-width": 30,
 					"border-radius": 10
 				},
 				{
@@ -28,7 +28,7 @@
 					"color": "#0000ff",
 					"border-color": "transparent",
 					"background-color": "transparent",
-					"border-width": "thin",
+					"border-width": 30,
 					"border-radius": 10
 				},
 				{
@@ -42,7 +42,7 @@
 					"color": "#ffffff",
 					"border-color": "black",
 					"background-color": "gray",
-					"border-width": "thin",
+					"border-width": 30,
 					"border-radius": 10
 				},
 				{
@@ -56,7 +56,7 @@
 					"color": "#0000ff",
 					"border-color": "black",
 					"background-color": "transparent",
-					"border-width": "thin",
+					"border-width": 30,
 					"border-radius": 10
 				}
 			]
@@ -76,7 +76,7 @@
 					"height": 400,
 					"border-color": "black",
 					"background-color": "transparent",
-					"border-width": "thin",
+					"border-width": 30,
 					"border-radius": 10
 				},
 				{
@@ -90,7 +90,7 @@
 					"color": "#0000ff",
 					"border-color": "transparent",
 					"background-color": "transparent",
-					"border-width": "thin",
+					"border-width": 30,
 					"border-radius": 10
 				},
 				{
@@ -104,7 +104,7 @@
 					"color": "#00ffff",
 					"border-color": "red",
 					"background-color": "transparent",
-					"border-width": "thin",
+					"border-width": 30,
 					"border-radius": 20
 				},
 				{
@@ -118,7 +118,7 @@
 					"color": "#ffffff",
 					"border-color": "black",
 					"background-color": "gray",
-					"border-width": "thin",
+					"border-width": 30,
 					"border-radius": 10
 				}
 			]
@@ -137,7 +137,7 @@
 					"height": 400,
 					"border-color": "black",
 					"background-color": "transparent",
-					"border-width": "thin",
+					"border-width": 30,
 					"border-radius": 10
 				}
 			]
@@ -156,7 +156,7 @@
 					"height": 1500,
 					"border-color": "black",
 					"background-color": "transparent",
-					"border-width": "thin",
+					"border-width": 30,
 					"border-radius": 10
 				},
 				{
@@ -170,7 +170,7 @@
 					"color": "#0000ff",
 					"border-color": "black",
 					"background-color": "transparent",
-					"border-width": "thin",
+					"border-width": 30,
 					"border-radius": 20
 				}
 			]

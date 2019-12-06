@@ -56,7 +56,7 @@ h5.grey-text.text-darken-3{
 
 .trashcan{
   padding: 0px ;
-  margin-top:17px !important;
+  margin-top:19px !important;
 }
 .save-btn{
   margin-top:-10px !important;
@@ -142,9 +142,14 @@ span.card-content{
 
 .wireframe{
   position:relative;
-  display:flex;
-  flex: 1 0 auto;
   left:19%;
   height:500px !important;
   width:70%
+}
+
+.properties{
+  width:15%;
+  position:absolute;
+  left: 85%;
+  float:left;
 }
