@@ -24,7 +24,7 @@ class ContainerControl extends Component {
         return (<Rnd
             size={{ width: this.state.styles.width, height: this.state.styles.height }}
             position={{ x: this.state.x, y: this.state.y }}
-            onDragStop={(e, d) => {
+            onDrag={(e, d) => {
                 this.props.changePosition(this.state.index, { x: d.x, y: d.y });
                 this.setState(state => ({
                     ...state,
@@ -37,19 +37,23 @@ class ContainerControl extends Component {
                     this.state.index,
                     {
                         width: parseInt(ref.style.width),
-                        height: parseInt(ref.style.height)
-                    })
+                        height: parseInt(ref.style.height),
+                        x: position.x,
+                        y: position.y
+                    });
                 this.setState(state => ({
                     ...state,
+                    x: position.x,
+                    y: position.y,
                     styles: {
                         ...state.styles,
                         width: ref.style.width,
-                        height: ref.style.height
+                        height: ref.style.height,
                     }
                 }));
             }}
         >
-            <div style={this.state.styles} onClick={()=>{this.props.selectControl(this.state.index)}}></div>
+            <div style={this.state.styles} onClick={(e) => { e.stopPropagation(); this.props.selectControl(this.props.control) }}></div>
         </Rnd>);
     }
 }

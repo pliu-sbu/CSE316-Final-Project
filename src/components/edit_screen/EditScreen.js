@@ -7,10 +7,10 @@ import { wireframeChangeHandler } from '../../store/database/asynchHandler';
 import { wireframeDeleteHandler } from '../../store/database/asynchHandler';
 import { Modal, Button } from 'react-materialize';
 import ContainerControl from './ContainerControl';
+import PropertiesControl from './PropertiesControl';
 
 class EditScreen extends Component {
     markForDeletion = false;
-
     state = {
         name: '',
         selectedControl: null,
@@ -49,6 +49,8 @@ class EditScreen extends Component {
         let controls = this.state.controls ? this.state.controls : this.props.wireframe.controls;
         controls[index].width = sizeObj.width;
         controls[index].height = sizeObj.height;
+        controls[index].x = sizeObj.x;
+        controls[index].y = sizeObj.y;
         this.setState(state => ({
             ...state,
             controls: controls,
@@ -73,7 +75,7 @@ class EditScreen extends Component {
             }
         }
         return (
-            <div className="container">
+            <div className="container" >
                 <div className="toolbar">
                     <h5 className="grey-text text-darken-3">
                         <i className="small zoom material-icons">zoom_in</i>
@@ -115,42 +117,28 @@ class EditScreen extends Component {
                         <br />
                         <label>Textfield</label>
                     </div>
-                </div><br />
-                <div className="properties">
-                    <strong>Properties</strong><hr />
-                    Text:
-                    <input className="text_prop" disabled={this.value ? false : true}></input>
-                    <br />
-                    Font Size:
-                    <input className="font-size_prop" disabled={this.value ? false : true}></input>
-                    Font color:&nbsp;
-                    <input className="font-color_prop" type="color" disabled={this.value ? false : true}></input>
-                    <br /><br />
-                    Background color:&nbsp;
-                    <input className="background-color_prop" type="color" disabled={this.value ? false : true}></input>
-                    <br /><br />
-                    Border color:&nbsp;
-                    <input className="border-color_prop" type="color" disabled={this.value ? false : true}></input>
-                    <br /><br />
-                    Border thickness:
-                    <input className="border-thickness_prop" disabled={this.value ? false : true}></input>
-                    <br />
-                    Border radius:
-                    <input className="border-radius_prop" disabled={this.value ? false : true}></input>
-
-                </div>
-                <div className="wireframe">
+                </div> <br />
+                <PropertiesControl selectedControl={this.state.selectedControl}></PropertiesControl>}
+                <div className="wireframe" onClick={(e) => { e.stopPropagation(); this.setState(state => ({ ...state, selectedControl: null })) }}>
                     {controls.map((control, index) => {
                         switch (control.type) {
                             case "container":
-                                return (<ContainerControl key={index} selectControl={(index) => this.setState(state => ({ ...state, selectedControl: this.state.controls[index] }))} index={index} control={control} changePosition={(index, posObj) => { this.changePosition(index, posObj) }} changeSize={(index, sizeObj) => { this.changeSize(index, sizeObj) }}></ContainerControl>);
+                                return (<ContainerControl key={index} selectControl={(control) => this.setState(state => ({ ...state, selectedControl: control }))} index={index} control={control} changePosition={(index, posObj) => { this.changePosition(index, posObj) }} changeSize={(index, sizeObj) => { this.changeSize(index, sizeObj) }}></ContainerControl>);
                             default:
                                 return "";
                         }
                     })}
-                </div><br />
-                <canvas id="rectSelection" width={this.state.selectedControl ? this.state.selectedControl.width + 2 : 0} height={this.state.selectedControl ? this.state.selectedControl.height + 2 : 0} left={this.state.selectedControl ? this.state.selectedControl.x + 1 : 0} top={this.state.selectedControl ? this.state.selectedControl.y + 1 : 0} style={{ border: "1px solid #d3d3d3" }} hidden={this.state.selectedControl ? false : true}></canvas>
-            </div>
+                    <canvas id="rectSelection"
+                        width={this.state.selectedControl ? this.state.selectedControl.width : 0}
+                        height={this.state.selectedControl ? this.state.selectedControl.height : 0}
+                        style={{
+                            position: "relative", border: "2px solid #d3d3d3", zIndex: 0, pointerEvents: "none", borderColor: "red", borderStyle: "dashed",
+                            left: (this.state.selectedControl ? this.state.selectedControl.x - 4 : 0) + "px",
+                            top: (this.state.selectedControl ? this.state.selectedControl.y - 4 : 0) + "px"
+                        }}
+                        hidden={!this.state.selectedControl}></canvas>
+                </div> <br />
+            </div >
         );
     }
 }
