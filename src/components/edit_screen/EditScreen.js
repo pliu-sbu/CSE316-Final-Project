@@ -14,7 +14,16 @@ class EditScreen extends Component {
     state = {
         name: '',
         selectedControl: null,
-        controls: this.props.wireframe ? this.props.wireframe.controls : null,
+        controls: null,
+    }
+
+    componentDidUpdate = (nextProps) => {
+        if (this.props.wireframe !== nextProps.wireframe) {
+            this.setState(state => ({
+                ...state,
+                controls: this.props.wireframe ? this.props.wireframe.controls : null
+            }))
+        }
     }
 
     handleChange = (e) => {
@@ -35,18 +44,19 @@ class EditScreen extends Component {
     }
 
     changePosition = (index, posObj) => {
-        let controls = this.state.controls ? this.state.controls : this.props.wireframe.controls;
+        let controls = this.state.controls;
         controls[index].x = posObj.x;
         controls[index].y = posObj.y;
         this.setState(state => ({
             ...state,
             controls: controls,
+            selectedControl: controls[index]
         }));
         console.log(this.state.controls[index]);
     }
 
     changeSize = (index, sizeObj) => {
-        let controls = this.state.controls ? this.state.controls : this.props.wireframe.controls;
+        let controls = this.state.controls;
         controls[index].width = sizeObj.width;
         controls[index].height = sizeObj.height;
         controls[index].x = sizeObj.x;
@@ -54,15 +64,30 @@ class EditScreen extends Component {
         this.setState(state => ({
             ...state,
             controls: controls,
+            selectedControl: controls[index]
         }));
         console.log(this.state.controls[index]);
+    }
+
+    changeControlProps = (type, value) => {
+        if (!this.state.selectedControl) return;
+        let updatedControl = this.state.selectedControl;
+        let controls = this.state.controls;
+        updatedControl[type] = value;
+        let index = updatedControl.index;
+        delete updatedControl.index;
+        controls[index] = updatedControl;
+        this.setState(state => ({
+            ...state,
+            selectedControl: updatedControl,
+            controls: controls
+        }));
+        console.log(this.state.controls);
     }
 
     render() {
         const auth = this.props.auth;
         const wireframe = this.props.wireframe;
-        let controls = this.state.controls ? this.state.controls : this.props.wireframe ? this.props.wireframe.controls : null;
-        console.log(controls);
         if (!auth.uid) {
             return <Redirect to="/" />;
         }
@@ -74,6 +99,8 @@ class EditScreen extends Component {
                 return <React.Fragment />;
             }
         }
+        if (!this.state.controls) return <React.Fragment />;
+        let controls = this.state.controls;
         return (
             <div className="container" >
                 <div className="toolbar">
@@ -118,19 +145,25 @@ class EditScreen extends Component {
                         <label>Textfield</label>
                     </div>
                 </div> <br />
-                <PropertiesControl selectedControl={this.state.selectedControl}></PropertiesControl>}
+                <PropertiesControl selectedControl={this.state.selectedControl} changeControlProps={(type, value) => { this.changeControlProps(type, value) }}></PropertiesControl>}
                 <div className="wireframe" onClick={(e) => { e.stopPropagation(); this.setState(state => ({ ...state, selectedControl: null })) }}>
                     {controls.map((control, index) => {
                         switch (control.type) {
                             case "container":
-                                return (<ContainerControl key={index} selectControl={(control) => this.setState(state => ({ ...state, selectedControl: control }))} index={index} control={control} changePosition={(index, posObj) => { this.changePosition(index, posObj) }} changeSize={(index, sizeObj) => { this.changeSize(index, sizeObj) }}></ContainerControl>);
+                                return (
+                                    <ContainerControl key={index}
+                                        selectControl={(control) => this.setState(state => ({ ...state, selectedControl: { ...control, index } }))}
+                                        index={index}
+                                        control={control}
+                                        changePosition={(index, posObj) => { this.changePosition(index, posObj) }}
+                                        changeSize={(index, sizeObj) => { this.changeSize(index, sizeObj) }}></ContainerControl>);
                             default:
                                 return "";
                         }
                     })}
                     <canvas id="rectSelection"
-                        width={this.state.selectedControl ? this.state.selectedControl.width : 0}
-                        height={this.state.selectedControl ? this.state.selectedControl.height : 0}
+                        width={this.state.selectedControl ? this.state.selectedControl.width + 6 : 0}
+                        height={this.state.selectedControl ? this.state.selectedControl.height + 6 : 0}
                         style={{
                             position: "relative", border: "2px solid #d3d3d3", zIndex: 0, pointerEvents: "none", borderColor: "red", borderStyle: "dashed",
                             left: (this.state.selectedControl ? this.state.selectedControl.x - 4 : 0) + "px",
