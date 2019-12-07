@@ -1,179 +1,308 @@
 {
-    "wireframes": [
-        {
-            "key": 0,
+	"wireframes": [
+		{
+			"key": 0,
 			"name": "user1 diagram1",
-            "width": 500, 
-			"height": 500, 
-			"controls":[
+			"width": 500,
+			"height": 500,
+			"controls": [
 				{
-					"type":"container",
+					"type": "container",
 					"x": 0,
 					"y": 0,
 					"width": 400,
 					"height": 400,
-					"border-color": "#000000",
-					"background-color": "transparent",
+					"border-color": {
+						"r": 0,
+						"g": 0,
+						"b": 0,
+						"a": 1
+					},
+					"background-color": {
+						"r": 255,
+						"g": 255,
+						"b": 255,
+						"a": 0
+					},
 					"border-width": 30,
 					"border-radius": 10
 				},
 				{
-					"type":"label",
+					"type": "label",
 					"x": 55,
 					"y": 55,
-					"width": 10,
-					"height": 10,
+					"width": 100,
+					"height": 100,
 					"text": "what?",
-					"font-size":16,
-					"color": "#0000ff",
-					"border-color": "transparent",
-					"background-color": "transparent",
+					"font-size": 16,
+					"color": {
+						"r": 0,
+						"g": 0,
+						"b": 255,
+						"a": 1
+					},
+					"border-color": {
+						"r": 255,
+						"g": 255,
+						"b": 255,
+						"a": 0
+					},
+					"background-color": {
+						"r": 255,
+						"g": 255,
+						"b": 255,
+						"a": 0
+					},
 					"border-width": 30,
 					"border-radius": 10
 				},
 				{
-					"type":"button",
+					"type": "button",
 					"x": 55,
 					"y": 80,
 					"width": 15,
 					"height": 15,
 					"text": "ok",
-					"font-size":16,
+					"font-size": 16,
 					"color": "#ffffff",
-					"border-color": "black",
-					"background-color": "gray",
-					"border-width": 30,
+					"border-color": {
+						"r": 0,
+						"g": 0,
+						"b": 0,
+						"a": 1
+					},
+					"background-color": {
+						"r": 128,
+						"g": 128,
+						"b": 128,
+						"a": 1
+					},
+					"border-width": 1,
 					"border-radius": 10
 				},
 				{
-					"type":"textfield",
+					"type": "textfield",
 					"x": 60,
 					"y": 90,
 					"width": 50,
 					"height": 10,
 					"text": "idk",
-					"font-size":16,
-					"color": "#0000ff",
-					"border-color": "black",
-					"background-color": "transparent",
-					"border-width": 30,
+					"font-size": 16,
+					"color": {
+						"r": 0,
+						"g": 0,
+						"b": 255,
+						"a": 1
+					},
+					"border-color": {
+						"r": 0,
+						"g": 0,
+						"b": 0,
+						"a": 1
+					},
+					"background-color": {
+						"r": 255,
+						"g": 255,
+						"b": 255,
+						"a": 0
+					},
+					"border-width": 3,
 					"border-radius": 10
 				}
 			]
-			
-        },
-        {
-            "key": 1,
+		},
+		{
+			"key": 1,
 			"name": "user1 diagram2",
-            "width": 400, 
-			"height": 400, 
-			"controls":[
+			"width": 400,
+			"height": 400,
+			"controls": [
 				{
-					"type":"container",
+					"type": "container",
 					"x": 0,
 					"y": 0,
 					"width": 400,
 					"height": 400,
-					"border-color": "black",
-					"background-color": "transparent",
-					"border-width": 30,
+					"border-color": {
+						"r": 0,
+						"g": 0,
+						"b": 0,
+						"a": 1
+					},
+					"background-color": {
+						"r": 255,
+						"g": 255,
+						"b": 255,
+						"a": 0
+					},
+					"border-width": 3,
 					"border-radius": 10
 				},
 				{
-					"type":"label",
+					"type": "label",
 					"x": 55,
 					"y": 55,
 					"width": 10,
 					"height": 10,
 					"text": "what?",
-					"font-size":16,
-					"color": "#0000ff",
-					"border-color": "transparent",
-					"background-color": "transparent",
-					"border-width": 30,
+					"font-size": 16,
+					"color": {
+						"r": 0,
+						"g": 0,
+						"b": 255,
+						"a": 1
+					},
+					"border-color": {
+						"r": 255,
+						"g": 255,
+						"b": 255,
+						"a": 0
+					},
+					"background-color": {
+						"r": 255,
+						"g": 255,
+						"b": 255,
+						"a": 0
+					},
+					"border-width": 3,
 					"border-radius": 10
 				},
 				{
-					"type":"label",
+					"type": "label",
 					"x": 55,
 					"y": 70,
 					"width": 20,
 					"height": 20,
 					"text": "test?",
-					"font-size":25,
-					"color": "#00ffff",
-					"border-color": "red",
-					"background-color": "transparent",
-					"border-width": 30,
+					"font-size": 25,
+					"color": {
+						"r": 0,
+						"g": 0,
+						"b": 255,
+						"a": 1
+					},
+					"border-color": {
+						"r": 255,
+						"g": 0,
+						"b": 0,
+						"a": 1
+					},
+					"background-color": {
+						"r": 255,
+						"g": 255,
+						"b": 255,
+						"a": 0
+					},
+					"border-width": 3,
 					"border-radius": 20
 				},
 				{
-					"type":"button",
+					"type": "button",
 					"x": 55,
 					"y": 90,
 					"width": 15,
 					"height": 15,
 					"text": "ok",
-					"font-size":16,
+					"font-size": 16,
 					"color": "#ffffff",
-					"border-color": "black",
+					"border-color": {
+						"r": 0,
+						"g": 0,
+						"b": 0,
+						"a": 1
+					},
 					"background-color": "gray",
-					"border-width": 30,
+					"border-width": 3,
 					"border-radius": 10
 				}
 			]
-        },
-        {
-            "key": 2,
+		},
+		{
+			"key": 2,
 			"name": "user1 diagram3",
 			"width": 800,
 			"height": 800,
-			"controls":[
+			"controls": [
 				{
-					"type":"container",
+					"type": "container",
 					"x": 0,
 					"y": 0,
 					"width": 1000,
 					"height": 400,
-					"border-color": "black",
-					"background-color": "transparent",
-					"border-width": 30,
+					"border-color": {
+						"r": 0,
+						"g": 0,
+						"b": 0,
+						"a": 1
+					},
+					"background-color": {
+						"r": 255,
+						"g": 255,
+						"b": 255,
+						"a": 0
+					},
+					"border-width": 3,
 					"border-radius": 10
 				}
 			]
-        },
-        {
-            "key": 3,
+		},
+		{
+			"key": 3,
 			"name": "user1 diagram4",
-            "width": 850,
+			"width": 850,
 			"height": 850,
-			"controls":[
+			"controls": [
 				{
-					"type":"container",
+					"type": "container",
 					"x": 50,
 					"y": 50,
 					"width": 1500,
 					"height": 1500,
-					"border-color": "black",
-					"background-color": "transparent",
-					"border-width": 30,
+					"border-color": {
+						"r": 0,
+						"g": 0,
+						"b": 0,
+						"a": 1
+					},
+					"background-color": {
+						"r": 255,
+						"g": 255,
+						"b": 255,
+						"a": 0
+					},
+					"border-width": 3,
 					"border-radius": 10
 				},
 				{
-					"type":"textfield",
+					"type": "textfield",
 					"x": 60,
 					"y": 60,
 					"width": 100,
 					"height": 12,
 					"text": "haha",
-					"font-size":12,
-					"color": "#0000ff",
-					"border-color": "black",
-					"background-color": "transparent",
-					"border-width": 30,
+					"font-size": 12,
+					"color": {
+						"r": 0,
+						"g": 0,
+						"b": 255,
+						"a": 1
+					},
+					"border-color": {
+						"r": 0,
+						"g": 0,
+						"b": 0,
+						"a": 1
+					},
+					"background-color": {
+						"r": 255,
+						"g": 255,
+						"b": 255,
+						"a": 0
+					},
+					"border-width": 3,
 					"border-radius": 20
 				}
 			]
-        }
-    ]
+		}
+	]
 }

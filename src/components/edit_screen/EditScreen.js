@@ -76,7 +76,7 @@ class EditScreen extends Component {
             controls: controls,
             selectedControl: controls[index]
         }));
-        console.log(this.state.controls[index]);
+        //console.log(this.state.controls[index]);
     }
 
     changeSize = (index, sizeObj) => {
@@ -90,7 +90,7 @@ class EditScreen extends Component {
             controls: controls,
             selectedControl: controls[index]
         }));
-        console.log(this.state.controls[index]);
+        //console.log(this.state.controls[index]);
     }
 
     changeControlProps = (type, value) => {
@@ -105,7 +105,7 @@ class EditScreen extends Component {
             selectedControl: updatedControl,
             controls: controls
         }));
-        console.log(this.state.controls);
+        //console.log(this.state.controls);
     }
 
     clearSelectionDetection = (e) => {
