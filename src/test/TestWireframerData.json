@@ -221,7 +221,12 @@
 						"b": 0,
 						"a": 1
 					},
-					"background-color": "gray",
+					"background-color": {
+						"r": 128,
+						"g": 128,
+						"b": 128,
+						"a": 1
+					},
 					"border-width": 3,
 					"border-radius": 10
 				}
