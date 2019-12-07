@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
+import { ChromePicker } from 'react-color';
 
 class PropertiesControl extends Component {
+    transparentColor = { r: 255, g: 255, b: 255, a: 0 };
+    state = {
+        colorControl: "background-color"
+    }
     render() {
         if (!this.props.selectedControl) return null;
         return (<div className="properties">
@@ -11,16 +16,19 @@ class PropertiesControl extends Component {
                 <br />
                 Font Size:
             <input className="font-size_prop" value={this.props.selectedControl['font-size'] || 0} onChange={(e) => { this.props.changeControlProps("font-size", parseInt(e.target.value) || 0) }}></input>
-                Font color:&nbsp;
-            <input className="font-color_prop" type="color" value={this.props.selectedControl.color || ""} onChange={(e) => { this.props.changeControlProps("color", e.target.value || "#000000") }}></input>
             </div>
+            <select id="colorTarget" className="browser-default" style={{ fontSize: 13.5, height: "2rem" }} onChange={(e) => this.setState({ colorControl: e.target.options[e.target.selectedIndex].value })}>
+                <option value="background-color" selected> Background color</option>
+                {this.props.selectedControl.type !== "container" ? <option value="color">Font color</option> : ""}
+                <option value="border-color">Border color</option>
+            </select>
+            <ChromePicker
+                className="color_picker"
+                color={this.props.selectedControl[this.state.colorControl]}
+                onChange={(color) => { this.props.changeControlProps(this.state.colorControl, color.rgb || this.transparentColor) }}
+                width={"auto"}
+            />
             <br />
-            Background color:&nbsp;
-        <input className="background-color_prop" type="color" value={this.props.selectedControl['background-color'] || ""} onChange={(e) => { this.props.changeControlProps("background-color", e.target.value || "transparent") }}></input>
-            <br /><br />
-            Border color:&nbsp;
-        <input className="border-color_prop" type="color" value={this.props.selectedControl['border-color'] || ""} onChange={(e) => { this.props.changeControlProps("border-color", e.target.value || "#000000") }}></input>
-            <br /><br />
             Border thickness:
         <input className="border-width_prop" value={this.props.selectedControl['border-width'] || 0} onChange={(e) => { this.props.changeControlProps("border-width", parseInt(e.target.value) || 0) }}></input>
             <br />

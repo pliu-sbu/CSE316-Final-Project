@@ -105,7 +105,7 @@ class EditScreen extends Component {
             selectedControl: updatedControl,
             controls: controls
         }));
-        //console.log(this.state.controls);
+        console.log(this.state.controls);
     }
 
     clearSelectionDetection = (e) => {
