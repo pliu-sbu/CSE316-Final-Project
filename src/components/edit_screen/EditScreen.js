@@ -6,8 +6,9 @@ import { firestoreConnect } from 'react-redux-firebase';
 import { wireframeChangeHandler } from '../../store/database/asynchHandler';
 import { wireframeDeleteHandler } from '../../store/database/asynchHandler';
 import { Modal, Button } from 'react-materialize';
-import ContainerControl from './ContainerControl';
 import PropertiesControl from './PropertiesControl';
+import ContainerControl from './ContainerControl';
+import LabelControl from './LabelControl';
 
 class EditScreen extends Component {
     markForDeletion = false;
@@ -15,6 +16,29 @@ class EditScreen extends Component {
         name: '',
         selectedControl: null,
         controls: null,
+    }
+
+    keydownHandler = (e) => {
+        try {
+            let controls = this.state.controls;
+            if (e.keyCode === 8 && this.state.selectedControl && !(document.activeElement instanceof HTMLInputElement)) {
+                controls.splice(this.state.selectedControl.index, 1);
+                this.setState(state => ({
+                    ...state,
+                    selectedControl: null,
+                    controls: controls
+                }));
+            }
+        } catch (e) {
+            //do nothing
+        }
+    }
+
+    componentDidMount() {
+        document.addEventListener('keydown', this.keydownHandler);
+    }
+    componentWillUnmount() {
+        document.removeEventListener('keydown', this.keydownHandler);
     }
 
     componentDidUpdate = (nextProps) => {
@@ -74,15 +98,24 @@ class EditScreen extends Component {
         let updatedControl = this.state.selectedControl;
         let controls = this.state.controls;
         updatedControl[type] = value;
-        let index = updatedControl.index;
-        delete updatedControl.index;
-        controls[index] = updatedControl;
+        //delete updatedControl.index;
+        controls[updatedControl.index] = updatedControl;
         this.setState(state => ({
             ...state,
             selectedControl: updatedControl,
             controls: controls
         }));
         console.log(this.state.controls);
+    }
+
+    clearSelectionDetection = (e) => {
+        e.stopPropagation();
+        let elem = document.getElementById("rectSelection");
+        let topLeft = Math.min(Math.abs(e.clientX - (elem.getBoundingClientRect().left)), Math.abs(e.clientY - (elem.getBoundingClientRect().top)));
+        let bottomLeft = Math.min(Math.abs(e.clientX - (elem.getBoundingClientRect().left)), Math.abs(e.clientY - (elem.getBoundingClientRect().top + elem.offsetHeight)));
+        let topRight = Math.min(Math.abs(e.clientX - (elem.getBoundingClientRect().left + elem.offsetWidth)), Math.abs(e.clientY - (elem.getBoundingClientRect().top)));
+        let bottomRight = Math.min(Math.abs(e.clientX - (elem.getBoundingClientRect().left + elem.offsetWidth)), Math.abs(e.clientY - (elem.getBoundingClientRect().top + elem.offsetHeight)));
+        if (topLeft > 5 && bottomLeft > 5 && topRight > 5 && bottomRight > 5) this.setState(state => ({ ...state, selectedControl: null }));
     }
 
     render() {
@@ -146,7 +179,7 @@ class EditScreen extends Component {
                     </div>
                 </div> <br />
                 <PropertiesControl selectedControl={this.state.selectedControl} changeControlProps={(type, value) => { this.changeControlProps(type, value) }}></PropertiesControl>}
-                <div className="wireframe" onClick={(e) => { e.stopPropagation(); this.setState(state => ({ ...state, selectedControl: null })) }}>
+                <div className="wireframe" onClick={(e) => this.clearSelectionDetection(e)}>
                     {controls.map((control, index) => {
                         switch (control.type) {
                             case "container":
@@ -157,6 +190,14 @@ class EditScreen extends Component {
                                         control={control}
                                         changePosition={(index, posObj) => { this.changePosition(index, posObj) }}
                                         changeSize={(index, sizeObj) => { this.changeSize(index, sizeObj) }}></ContainerControl>);
+                            case "label":
+                                return (
+                                    <LabelControl key={index}
+                                        selectControl={(control) => this.setState(state => ({ ...state, selectedControl: { ...control, index } }))}
+                                        index={index}
+                                        control={control}
+                                        changePosition={(index, posObj) => { this.changePosition(index, posObj) }}
+                                        changeSize={(index, sizeObj) => { this.changeSize(index, sizeObj) }}></LabelControl>);
                             default:
                                 return "";
                         }
@@ -166,8 +207,8 @@ class EditScreen extends Component {
                         height={this.state.selectedControl ? this.state.selectedControl.height + 6 : 0}
                         style={{
                             position: "relative", border: "2px solid #d3d3d3", zIndex: 0, pointerEvents: "none", borderColor: "red", borderStyle: "dashed",
-                            left: (this.state.selectedControl ? this.state.selectedControl.x - 4 : 0) + "px",
-                            top: (this.state.selectedControl ? this.state.selectedControl.y - 4 : 0) + "px"
+                            left: (this.state.selectedControl ? this.state.selectedControl.x - 6 : 0) + "px",
+                            top: (this.state.selectedControl ? this.state.selectedControl.y - 6 : 0) + "px"
                         }}
                         hidden={!this.state.selectedControl}></canvas>
                 </div> <br />
