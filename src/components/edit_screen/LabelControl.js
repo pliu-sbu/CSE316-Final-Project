@@ -9,9 +9,9 @@ class LabelControl extends Component {
     render() {
         return (<Rnd
             size={{ width: this.props.control.width + "px", height: this.props.control.height + "px" }}
-            position={{ x: this.props.control.x, y: this.props.control.y }}
+            position={{ x: this.props.control.x - this.props.scrollOffsets[0], y: this.props.control.y - this.props.scrollOffsets[1] }}
             onDrag={(e, d) => {
-                this.props.changePosition(this.props.index, { x: d.x, y: d.y });
+                this.props.changePosition(this.props.index, { x: d.x - this.props.scrollOffsets[0], y: d.y - this.props.scrollOffsets[1] });
             }}
             onResize={(e, direction, ref, delta, position) => {
                 this.props.changeSize(

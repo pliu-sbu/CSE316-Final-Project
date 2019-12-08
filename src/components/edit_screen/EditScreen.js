@@ -17,6 +17,7 @@ class EditScreen extends Component {
         selectedControl: null,
         selectedIndex: -1,
         controls: null,
+        scrollOffsets: [0, 0]
     }
 
     keydownHandler = (e) => {
@@ -139,6 +140,12 @@ class EditScreen extends Component {
         //console.log(updatedControl);
     }
 
+    updateScrollOffsets = (e) => {
+        let left = e.target.scrollLeft;
+        let top = e.target.scrollTop;
+        this.setState(state => ({ ...state, scrollOffsets: [left, top] }));
+    }
+
     render() {
         const auth = this.props.auth;
         const wireframe = this.props.wireframe;
@@ -199,8 +206,8 @@ class EditScreen extends Component {
                         <label>Textfield</label>
                     </div>
                 </div> <br />
-                <PropertiesControl selectedControl={this.state.selectedControl} changeControlProps={(type, value) => { this.changeControlProps(type, value) }}></PropertiesControl>}
-                <div className="wireframe" onClick={(e) => this.clearSelectionDetection(e)}>
+                <PropertiesControl selectedControl={this.state.selectedControl} changeControlProps={(type, value) => { this.changeControlProps(type, value) }}></PropertiesControl>
+                <div className="wireframe" onClick={(e) => this.clearSelectionDetection(e)} onScroll={this.updateScrollOffsets}>
                     {controls.map((control, index) => {
                         switch (control.type) {
                             case "container":
@@ -210,7 +217,8 @@ class EditScreen extends Component {
                                         index={index}
                                         control={control}
                                         changePosition={(index, posObj) => { this.changePosition(index, posObj) }}
-                                        changeSize={(index, sizeObj) => { this.changeSize(index, sizeObj) }}></ContainerControl>);
+                                        changeSize={(index, sizeObj) => { this.changeSize(index, sizeObj) }}
+                                        scrollOffsets={this.state.scrollOffsets}></ContainerControl>);
                             case "label":
                                 return (
                                     <LabelControl key={index}
@@ -218,7 +226,8 @@ class EditScreen extends Component {
                                         index={index}
                                         control={control}
                                         changePosition={(index, posObj) => { this.changePosition(index, posObj) }}
-                                        changeSize={(index, sizeObj) => { this.changeSize(index, sizeObj) }}></LabelControl>);
+                                        changeSize={(index, sizeObj) => { this.changeSize(index, sizeObj) }}
+                                        scrollOffsets={this.state.scrollOffsets}></LabelControl>);
                             default:
                                 return "";
                         }
