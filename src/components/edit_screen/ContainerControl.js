@@ -19,8 +19,8 @@ class ContainerControl extends Component {
                     {
                         width: parseInt(ref.style.width),
                         height: parseInt(ref.style.height),
-                        x: position.x,
-                        y: position.y
+                        x: position.x + this.props.scrollOffsets[0],
+                        y: position.y + this.props.scrollOffsets[1]
                     });
             }}
         >
