@@ -36,7 +36,7 @@ class LabelControl extends Component {
                 color: this.colorToString(this.props.control.color),
                 fontSize: this.props.control["font-size"] + "px",
                 wordWrap: "break-word"
-            }} onClick={(e) => { e.stopPropagation(); this.props.selectControl(this.props.control) }}>{this.props.control.text}</div>
+            }} onClick={(e) => { e.stopPropagation(); this.props.selectControl(); }}>{this.props.control.text}</div>
         </Rnd>);
     }
 }

@@ -206,7 +206,7 @@ class EditScreen extends Component {
                             case "container":
                                 return (
                                     <ContainerControl key={index}
-                                        selectControl={(control) => this.setState(state => ({ ...state, selectedControl: control, selectedIndex: index }))}
+                                        selectControl={() => this.setState(state => ({ ...state, selectedControl: control, selectedIndex: index }))}
                                         index={index}
                                         control={control}
                                         changePosition={(index, posObj) => { this.changePosition(index, posObj) }}
@@ -214,7 +214,7 @@ class EditScreen extends Component {
                             case "label":
                                 return (
                                     <LabelControl key={index}
-                                        selectControl={(control) => this.setState(state => ({ ...state, selectedControl: control, selectedIndex: index }))}
+                                        selectControl={() => this.setState(state => ({ ...state, selectedControl: control, selectedIndex: index }))}
                                         index={index}
                                         control={control}
                                         changePosition={(index, posObj) => { this.changePosition(index, posObj) }}

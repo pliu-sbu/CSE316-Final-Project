@@ -33,7 +33,7 @@ class ContainerControl extends Component {
                 backgroundColor: this.colorToString(this.props.control["background-color"]),
                 borderWidth: this.props.control["border-width"] + "px",
                 borderRadius: this.props.control["border-radius"] + "px",
-            }} onClick={(e) => { e.stopPropagation(); this.props.selectControl(this.props.control) }}></div>
+            }} onClick={(e) => { e.stopPropagation(); this.props.selectControl(); }}></div>
         </Rnd>);
     }
 }
