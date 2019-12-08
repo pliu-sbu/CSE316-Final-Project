@@ -20,6 +20,117 @@ class EditScreen extends Component {
         scrollOffsets: [0, 0]
     }
 
+    defaultControls = {
+        defaultContainer: {
+            "type": "container",
+            "x": 6,
+            "y": 6,
+            "width": 150,
+            "height": 50,
+            "border-color": {
+                "r": 0,
+                "g": 0,
+                "b": 0,
+                "a": 1
+            },
+            "background-color": {
+                "r": 255,
+                "g": 255,
+                "b": 255,
+                "a": 0
+            },
+            "border-width": 1,
+            "border-radius": 3
+        },
+        defaultLabel: {
+            "type": "label",
+            "x": 6,
+            "y": 6,
+            "width": 120,
+            "height": 22,
+            "text": "Prompted for Input:",
+            "font-size": 14,
+            "color": {
+                "r": 0,
+                "g": 0,
+                "b": 0,
+                "a": 1
+            },
+            "border-color": {
+                "r": 255,
+                "g": 255,
+                "b": 255,
+                "a": 0
+            },
+            "background-color": {
+                "r": 255,
+                "g": 255,
+                "b": 255,
+                "a": 0
+            },
+            "border-width": 0,
+            "border-radius": 0
+        },
+        defaultButton: {
+            "type": "button",
+            "x": 6,
+            "y": 6,
+            "width": 63,
+            "height": 23,
+            "text": "Submit",
+            "font-size": 12,
+            "color": {
+                "r": 0,
+                "g": 0,
+                "b": 0,
+                "a": 1
+            },
+            "border-color": {
+                "r": 128,
+                "g": 128,
+                "b": 128,
+                "a": 1
+            },
+            "background-color": {
+                "r": 252,
+                "g": 252,
+                "b": 252,
+                "a": 1
+            },
+            "border-width": 1,
+            "border-radius": 0
+        },
+        defaultTextfield: {
+            "type": "textfield",
+            "x": 6,
+            "y": 6,
+            "width": 50,
+            "height": 25,
+            "text": "",
+            "font-size": 12,
+            "color": {
+                "r": 0,
+                "g": 0,
+                "b": 0,
+                "a": 1
+            },
+            "border-color": {
+                "r": 0,
+                "g": 0,
+                "b": 0,
+                "a": 1
+            },
+            "background-color": {
+                "r": 255,
+                "g": 255,
+                "b": 255,
+                "a": 0
+            },
+            "border-width": 1,
+            "border-radius": 0
+        }
+    }
+
     keydownHandler = (e) => {
         try {
             e.stopImmediatePropagation();
@@ -127,16 +238,9 @@ class EditScreen extends Component {
 
     duplicateControl = () => {
         let updatedControl = JSON.parse(JSON.stringify(this.state.selectedControl));
-        let controls = this.state.controls;
         updatedControl.x += 100;
         updatedControl.y += 100;
-        controls.push(updatedControl);
-        this.setState(state => ({
-            ...state,
-            selectedControl: updatedControl,
-            selectedIndex: controls.length - 1,
-            controls: controls
-        }));
+        this.addControl(updatedControl);
         //console.log(updatedControl);
     }
 
@@ -144,6 +248,24 @@ class EditScreen extends Component {
         let left = e.target.scrollLeft;
         let top = e.target.scrollTop;
         this.setState(state => ({ ...state, scrollOffsets: [left, top] }));
+    }
+
+    addDefaultControl = (type) => {
+        let updatedControl = JSON.parse(JSON.stringify(this.defaultControls[type]));
+        updatedControl.x += this.state.scrollOffsets[0];
+        updatedControl.y += this.state.scrollOffsets[1];
+        this.addControl(updatedControl);
+    }
+
+    addControl = (updatedControl) => {
+        let controls = this.state.controls;
+        controls.push(updatedControl);
+        this.setState(state => ({
+            ...state,
+            selectedControl: updatedControl,
+            selectedIndex: controls.length - 1,
+            controls: controls
+        }));
     }
 
     render() {
@@ -192,16 +314,16 @@ class EditScreen extends Component {
                         <input className="active" type="text" name="name" id="name" onChange={this.handleChange} value={wireframe.name} />
                     </div>
                     <div className="control-collection">
-                        <div className="rectangle control-demo"></div>
+                        <div className="rectangle control-demo" onClick={() => this.addDefaultControl("defaultContainer")}></div>
                         <label>Container</label>
                         <br /><br />
-                        <div className="control-demo">Prompt for Input:</div>
+                        <div className="control-demo" onClick={() => this.addDefaultControl("defaultLabel")}>Prompt for Input:</div>
                         <label>Label</label>
                         <br /><br />
-                        <button className="button-demo control-demo" disabled>Submit</button><br />
+                        <button className="button-demo control-demo" disabled onClick={() => this.addDefaultControl("defaultButton")}>Submit</button><br />
                         <label>Button</label>
                         <br /><br />
-                        <input className="input-demo control-demo" placeholder='Input' disabled></input>
+                        <input className="input-demo control-demo" placeholder='Input' disabled onClick={() => this.addDefaultControl("defaultTextfield")}></input>
                         <br />
                         <label>Textfield</label>
                     </div>
