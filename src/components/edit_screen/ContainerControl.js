@@ -2,12 +2,6 @@ import React, { Component } from 'react';
 import { Rnd } from 'react-rnd';
 
 class ContainerControl extends Component {
-    state = {
-        index: this.props.index,
-        x: this.props.control.x,
-        y: this.props.control.y,
-    }
-
     colorToString = (color) => {
         return "rgba(" + color.r + "," + color.g + "," + color.b + "," + color.a + ")";
     }
@@ -15,29 +9,19 @@ class ContainerControl extends Component {
     render() {
         return (<Rnd
             size={{ width: this.props.control.width + "px", height: this.props.control.height + "px" }}
-            position={{ x: this.state.x, y: this.state.y }}
+            position={{ x: this.props.control.x, y: this.props.control.y }}
             onDrag={(e, d) => {
-                this.props.changePosition(this.state.index, { x: d.x, y: d.y });
-                this.setState(state => ({
-                    ...state,
-                    x: d.x,
-                    y: d.y
-                }));
+                this.props.changePosition(this.props.index, { x: d.x, y: d.y });
             }}
             onResize={(e, direction, ref, delta, position) => {
                 this.props.changeSize(
-                    this.state.index,
+                    this.props.index,
                     {
                         width: parseInt(ref.style.width),
                         height: parseInt(ref.style.height),
                         x: position.x,
                         y: position.y
                     });
-                this.setState(state => ({
-                    ...state,
-                    x: position.x,
-                    y: position.y,
-                }));
             }}
         >
             <div style={{

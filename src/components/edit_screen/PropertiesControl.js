@@ -18,7 +18,7 @@ class PropertiesControl extends Component {
             <input className="font-size_prop" value={this.props.selectedControl['font-size'] || 0} onChange={(e) => { this.props.changeControlProps("font-size", parseInt(e.target.value) || 0) }}></input>
             </div>
             <select id="colorTarget" className="browser-default" style={{ fontSize: 13.5, height: "2rem" }} onChange={(e) => this.setState({ colorControl: e.target.options[e.target.selectedIndex].value })}>
-                <option value="background-color" selected> Background color</option>
+                <option value="background-color"> Background color</option>
                 {this.props.selectedControl.type !== "container" ? <option value="color">Font color</option> : ""}
                 <option value="border-color">Border color</option>
             </select>

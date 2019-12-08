@@ -15,19 +15,27 @@ class EditScreen extends Component {
     state = {
         name: '',
         selectedControl: null,
+        selectedIndex: -1,
         controls: null,
     }
 
     keydownHandler = (e) => {
         try {
+            e.stopImmediatePropagation();
             let controls = this.state.controls;
             if (e.keyCode === 8 && this.state.selectedControl && !(document.activeElement instanceof HTMLInputElement)) {
-                controls.splice(this.state.selectedControl.index, 1);
+                controls.splice(this.state.selectedIndex, 1);
                 this.setState(state => ({
                     ...state,
                     selectedControl: null,
+                    selectedIndex: -1,
                     controls: controls
                 }));
+                console.log(controls);
+                e.preventDefault();
+            } else if (e.keyCode === 68 && e.ctrlKey && this.state.selectedControl) {
+                this.duplicateControl();
+                e.preventDefault();
             }
         } catch (e) {
             //do nothing
@@ -98,14 +106,12 @@ class EditScreen extends Component {
         let updatedControl = this.state.selectedControl;
         let controls = this.state.controls;
         updatedControl[type] = value;
-        //delete updatedControl.index;
         controls[updatedControl.index] = updatedControl;
         this.setState(state => ({
             ...state,
             selectedControl: updatedControl,
             controls: controls
         }));
-        console.log(this.state.controls);
     }
 
     clearSelectionDetection = (e) => {
@@ -116,6 +122,21 @@ class EditScreen extends Component {
         let topRight = Math.min(Math.abs(e.clientX - (elem.getBoundingClientRect().left + elem.offsetWidth)), Math.abs(e.clientY - (elem.getBoundingClientRect().top)));
         let bottomRight = Math.min(Math.abs(e.clientX - (elem.getBoundingClientRect().left + elem.offsetWidth)), Math.abs(e.clientY - (elem.getBoundingClientRect().top + elem.offsetHeight)));
         if (topLeft > 5 && bottomLeft > 5 && topRight > 5 && bottomRight > 5) this.setState(state => ({ ...state, selectedControl: null }));
+    }
+
+    duplicateControl = () => {
+        let updatedControl = JSON.parse(JSON.stringify(this.state.selectedControl));
+        let controls = this.state.controls;
+        updatedControl.x += 100;
+        updatedControl.y += 100;
+        controls.push(updatedControl);
+        this.setState(state => ({
+            ...state,
+            selectedControl: updatedControl,
+            selectedIndex: controls.length - 1,
+            controls: controls
+        }));
+        //console.log(updatedControl);
     }
 
     render() {
@@ -185,7 +206,7 @@ class EditScreen extends Component {
                             case "container":
                                 return (
                                     <ContainerControl key={index}
-                                        selectControl={(control) => this.setState(state => ({ ...state, selectedControl: { ...control, index } }))}
+                                        selectControl={(control) => this.setState(state => ({ ...state, selectedControl: control, selectedIndex: index }))}
                                         index={index}
                                         control={control}
                                         changePosition={(index, posObj) => { this.changePosition(index, posObj) }}
@@ -193,7 +214,7 @@ class EditScreen extends Component {
                             case "label":
                                 return (
                                     <LabelControl key={index}
-                                        selectControl={(control) => this.setState(state => ({ ...state, selectedControl: { ...control, index } }))}
+                                        selectControl={(control) => this.setState(state => ({ ...state, selectedControl: control, selectedIndex: index }))}
                                         index={index}
                                         control={control}
                                         changePosition={(index, posObj) => { this.changePosition(index, posObj) }}
