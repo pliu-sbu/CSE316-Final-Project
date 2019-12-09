@@ -164,3 +164,7 @@ form {
   overflow: auto;
   background-color: white;
 }
+
+.wireframe *{
+  transform-origin: 0% 0% 0px;
+}

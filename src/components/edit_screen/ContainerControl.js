@@ -8,21 +8,22 @@ class ContainerControl extends Component {
 
     render() {
         return (<Rnd
-            size={{ width: this.props.control.width + "px", height: this.props.control.height + "px" }}
-            position={{ x: this.props.control.x - this.props.scrollOffsets[0], y: this.props.control.y - this.props.scrollOffsets[1] }}
+            size={{ width: this.props.control.width * this.props.scale + "px", height: this.props.control.height * this.props.scale + "px" }}
+            position={{ x: (this.props.control.x - this.props.scrollOffsets[0]), y: this.props.control.y - this.props.scrollOffsets[1] }}
             onDrag={(e, d) => {
-                this.props.changePosition(this.props.index, { x: d.x - this.props.scrollOffsets[0], y: d.y - this.props.scrollOffsets[1] });
+                this.props.changePosition(this.props.index, { x: (d.x - this.props.scrollOffsets[0]) < 0 ? 0 : (d.x - this.props.scrollOffsets[0]), y: (d.y - this.props.scrollOffsets[1]) < 0 ? 0 : (d.y - this.props.scrollOffsets[1]) });
             }}
             onResize={(e, direction, ref, delta, position) => {
                 this.props.changeSize(
                     this.props.index,
                     {
-                        width: parseInt(ref.style.width),
-                        height: parseInt(ref.style.height),
+                        width: parseInt(ref.style.width) / this.props.scale,
+                        height: parseInt(ref.style.height) / this.props.scale,
                         x: position.x + this.props.scrollOffsets[0],
                         y: position.y + this.props.scrollOffsets[1]
                     });
             }}
+            style={{ transform: "scale(" + this.props.scale + ")" }}
         >
             <div style={{
                 position: "relative",
@@ -33,6 +34,7 @@ class ContainerControl extends Component {
                 backgroundColor: this.colorToString(this.props.control["background-color"]),
                 borderWidth: this.props.control["border-width"] + "px",
                 borderRadius: this.props.control["border-radius"] + "px",
+                transform: "scale(" + this.props.scale + ")"
             }} onClick={(e) => { e.stopPropagation(); this.props.selectControl(); }}></div>
         </Rnd>);
     }

@@ -17,7 +17,8 @@ class EditScreen extends Component {
         selectedControl: null,
         selectedIndex: -1,
         controls: null,
-        scrollOffsets: [0, 0]
+        scrollOffsets: [0, 0],
+        scale: 1
     }
 
     defaultControls = {
@@ -268,6 +269,10 @@ class EditScreen extends Component {
         }));
     }
 
+    updateScale = (num) => {
+        this.setState(state => ({ ...this.state, scale: (this.state.scale * num) < 0.25 ? 0.25 : (this.state.scale * num) }));
+    }
+
     render() {
         const auth = this.props.auth;
         const wireframe = this.props.wireframe;
@@ -288,8 +293,8 @@ class EditScreen extends Component {
             <div className="container" >
                 <div className="toolbar">
                     <h5 className="grey-text text-darken-3">
-                        <i className="small zoom material-icons">zoom_in</i>
-                        <i className="small zoom material-icons">zoom_out</i>
+                        <i className="small zoom material-icons" onClick={() => this.updateScale(2)}>zoom_in</i>
+                        <i className="small zoom material-icons" onClick={() => this.updateScale(0.5)}>zoom_out</i>
                         &nbsp;&nbsp;
                     <Button className="save-btn waves-effect">Save</Button>
                         &nbsp;
@@ -340,7 +345,8 @@ class EditScreen extends Component {
                                         control={control}
                                         changePosition={(index, posObj) => { this.changePosition(index, posObj) }}
                                         changeSize={(index, sizeObj) => { this.changeSize(index, sizeObj) }}
-                                        scrollOffsets={this.state.scrollOffsets}></ContainerControl>);
+                                        scrollOffsets={this.state.scrollOffsets}
+                                        scale={this.state.scale}></ContainerControl>);
                             case "label":
                                 return (
                                     <LabelControl key={index}
@@ -349,18 +355,20 @@ class EditScreen extends Component {
                                         control={control}
                                         changePosition={(index, posObj) => { this.changePosition(index, posObj) }}
                                         changeSize={(index, sizeObj) => { this.changeSize(index, sizeObj) }}
-                                        scrollOffsets={this.state.scrollOffsets}></LabelControl>);
+                                        scrollOffsets={this.state.scrollOffsets}
+                                        scale={this.state.scale}></LabelControl>);
                             default:
                                 return "";
                         }
                     })}
                     <canvas id="rectSelection"
-                        width={this.state.selectedControl ? this.state.selectedControl.width + 6 : 0}
-                        height={this.state.selectedControl ? this.state.selectedControl.height + 6 : 0}
+                        width={this.state.selectedControl ? this.state.selectedControl.width + (2 * this.state.scale) : 0}
+                        height={this.state.selectedControl ? this.state.selectedControl.height + (2 * this.state.scale) : 0}
                         style={{
                             position: "relative", border: "2px solid #d3d3d3", zIndex: 0, pointerEvents: "none", borderColor: "red", borderStyle: "dashed",
-                            left: (this.state.selectedControl ? this.state.selectedControl.x - 6 : 0) + "px",
-                            top: (this.state.selectedControl ? this.state.selectedControl.y - 6 : 0) + "px"
+                            left: (this.state.selectedControl ? this.state.selectedControl.x - (3 * this.state.scale) : 0) + "px",
+                            top: (this.state.selectedControl ? this.state.selectedControl.y - (3 * this.state.scale) : 0) + "px",
+                            transform: "scale(" + this.state.scale + ")"
                         }}
                         hidden={!this.state.selectedControl}></canvas>
                 </div> <br />
