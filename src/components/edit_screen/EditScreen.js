@@ -12,13 +12,15 @@ import LabelControl from './LabelControl';
 
 class EditScreen extends Component {
     markForDeletion = false;
+    controlsOnline = null;
     state = {
         name: '',
         selectedControl: null,
         selectedIndex: -1,
         controls: null,
         scrollOffsets: [0, 0],
-        scale: 1
+        scale: 1,
+        enableSave: false
     }
 
     defaultControls = {
@@ -168,6 +170,12 @@ class EditScreen extends Component {
                 ...state,
                 controls: this.props.wireframe ? this.props.wireframe.controls : null
             }))
+            if (!this.state.enableSave) this.controlsOnline = JSON.stringify(this.props.wireframe.controls);
+            return;
+        }
+        if (!this.state.enableSave && this.controlsOnline && this.controlsOnline !== JSON.stringify(this.state.controls)) {
+            this.setState(state => ({ ...state, enableSave: true }));
+            console.log("changed");
         }
     }
 
@@ -239,8 +247,8 @@ class EditScreen extends Component {
 
     duplicateControl = () => {
         let updatedControl = JSON.parse(JSON.stringify(this.state.selectedControl));
-        updatedControl.x += 100;
-        updatedControl.y += 100;
+        updatedControl.x += 100 * this.state.scale;
+        updatedControl.y += 100 * this.state.scale;
         this.addControl(updatedControl);
         //console.log(updatedControl);
     }
@@ -270,7 +278,24 @@ class EditScreen extends Component {
     }
 
     updateScale = (num) => {
-        this.setState(state => ({ ...this.state, scale: (this.state.scale * num) < 0.25 ? 0.25 : (this.state.scale * num) }));
+        if (this.state.scale * num < 0.25 || this.state.scale * num > 4) return;
+        let controls = this.state.controls;
+        let selectedControl = this.state.selectedControl;
+        controls.forEach(control => {
+            control.x *= num;
+            control.y *= num;
+        });
+        if (selectedControl) {
+            selectedControl = controls[this.state.selectedIndex];
+        }
+        this.setState(state => (
+            {
+                ...state,
+                scale: this.state.scale * num,
+                selectedControl: selectedControl,
+                controls: controls
+            }
+        ));
     }
 
     render() {
@@ -296,11 +321,24 @@ class EditScreen extends Component {
                         <i className="small zoom material-icons" onClick={() => this.updateScale(2)}>zoom_in</i>
                         <i className="small zoom material-icons" onClick={() => this.updateScale(0.5)}>zoom_out</i>
                         &nbsp;&nbsp;
-                    <Button className="save-btn waves-effect">Save</Button>
+                    <Button className={"save-btn waves-effect" + (this.state.enableSave ? "" : " disabled")}>Save</Button>
                         &nbsp;
-                    <Link to="/"><Button className="close-btn waves-effect">Close</Button></Link>
+                        <Link to="/"><span hidden={this.state.enableSave}><Button className="close-btn waves-effect">Close</Button></span></Link>
+                        <Modal
+                            header="Close without saving"
+                            trigger={<span hidden={!this.state.enableSave}><Button className="close-btn waves-effect">Close</Button></span>}
+                            actions={
+                                <div>
+                                    <Link to="/"><Button modal="close" className="red darken-2">Confirm</Button></Link>
+                                    &nbsp;&nbsp;&nbsp;
+                                <Button modal="close">dismiss</Button>
+                                </div>
+                            }
+                        >
+                            <h5>Are you sure you want to close this Wireframe without saving?</h5>
+                        </Modal>
                         &nbsp;&nbsp;
-                <Modal
+                    <Modal
                             header="Confirm Deleting Wireframe"
                             trigger={<p className="btn trashcan">🗑</p>}
                             actions={
