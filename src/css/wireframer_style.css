@@ -168,3 +168,7 @@ form {
 .wireframe *{
   transform-origin: 0% 0% 0px;
 }
+
+.zoom{
+  cursor: pointer;
+}

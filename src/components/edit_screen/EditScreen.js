@@ -279,6 +279,7 @@ class EditScreen extends Component {
 
     updateScale = (num) => {
         if (this.state.scale * num < 0.25 || this.state.scale * num > 4) return;
+        this.setState(state => ({ ...state, enableSave: true }));
         let controls = this.state.controls;
         let selectedControl = this.state.selectedControl;
         controls.forEach(control => {
@@ -296,6 +297,17 @@ class EditScreen extends Component {
                 controls: controls
             }
         ));
+    }
+
+    handleWireframeChange = () => {
+        let correctedControls = this.state.controls.map(control => {
+            control.x /= this.state.scale;
+            control.y /= this.state.scale;
+            return control;
+        });
+        this.props.wireframeChange(this.props.wireframe.id, "controls", correctedControls);
+        this.controlsOnline = null;
+        this.setState(state => ({ ...state, enableSave: false, scale: 1 }));
     }
 
     render() {
@@ -321,7 +333,7 @@ class EditScreen extends Component {
                         <i className="small zoom material-icons" onClick={() => this.updateScale(2)}>zoom_in</i>
                         <i className="small zoom material-icons" onClick={() => this.updateScale(0.5)}>zoom_out</i>
                         &nbsp;&nbsp;
-                    <Button className={"save-btn waves-effect" + (this.state.enableSave ? "" : " disabled")}>Save</Button>
+                    <Button className={"save-btn waves-effect" + (this.state.enableSave ? "" : " disabled")} onClick={this.handleWireframeChange}>Save</Button>
                         &nbsp;
                         <Link to="/"><span hidden={this.state.enableSave}><Button className="close-btn waves-effect">Close</Button></span></Link>
                         <Modal

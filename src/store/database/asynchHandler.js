@@ -41,7 +41,7 @@ export const createWireframeHandler = (key, uid) => (dispatch, getState) => {
     fireStore.collection('wireframes').add({
         key: key,
         name: "Unknown",
-        uid: uid, 
+        uid: uid,
         width: 500,
         height: 500,
         controls: []
