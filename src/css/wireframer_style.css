@@ -69,7 +69,7 @@ h5.grey-text.text-darken-3{
   height:35px;
   width:50px;
 }
-.input-field > label{
+.input-field > label:not(.browser-default,.small){
   font-size: 25px;
 }
 input[type=text]:not(.browser-default),

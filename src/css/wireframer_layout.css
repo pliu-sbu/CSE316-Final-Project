@@ -66,12 +66,18 @@ h5.grey-text.text-darken-3{
   margin-top:-10px !important;
   padding: 0 5px 10px 5px !important;
 }
+input[type=text]:not(.browser-default,.small),
+input[type=email]:not(.browser-default,.small),
+input[type=password]:not(.browser-default,.small),
+input[type=date]:not(.browser-default,.small),
+textarea.materialize-textarea{
+  height: 3rem !important;
+}
 input[type=text]:not(.browser-default),
 input[type=email]:not(.browser-default),
 input[type=password]:not(.browser-default),
 input[type=date]:not(.browser-default),
 textarea.materialize-textarea{
-  height: 3rem !important;
   padding-left: 15px;
   padding-top: 15px;
 }
@@ -143,8 +149,6 @@ span.card-content{
 .wireframe{
   position:relative;
   left:19%;
-  height:500px;
-  width:70%
 }
 
 .properties{

@@ -9,12 +9,15 @@ import { Modal, Button } from 'react-materialize';
 import PropertiesControl from './PropertiesControl';
 import ContainerControl from './ContainerControl';
 import LabelControl from './LabelControl';
+import DimensionField from './DimensionField';
 
 class EditScreen extends Component {
     markForDeletion = false;
     controlsOnline = null;
     state = {
-        name: '',
+        name: null,
+        width: null,
+        height: null,
         selectedControl: null,
         selectedIndex: -1,
         controls: null,
@@ -168,6 +171,9 @@ class EditScreen extends Component {
         if (this.props.wireframe !== nextProps.wireframe) {
             this.setState(state => ({
                 ...state,
+                name: this.props.wireframe ? this.props.wireframe.name : null,
+                width: this.props.wireframe ? this.props.wireframe.width : 500,
+                height: this.props.wireframe ? this.props.wireframe.height : 500,
                 controls: this.props.wireframe ? this.props.wireframe.controls : null
             }))
             if (!this.state.enableSave) this.controlsOnline = JSON.stringify(this.props.wireframe.controls);
@@ -185,10 +191,7 @@ class EditScreen extends Component {
         this.setState(state => ({
             ...state,
             [target.id]: target.value,
-        }), () => {
-            const wireframe = this.props.wireframe;
-            this.props.wireframeChange(wireframe.id, target.id, this.state[target.id]);
-        });
+        }));
     }
 
     handleWireframeDelete = () => {
@@ -310,6 +313,14 @@ class EditScreen extends Component {
         this.setState(state => ({ ...state, enableSave: false, scale: 1 }));
     }
 
+    updateDimensions = (width, height) => {
+        this.setState(state => ({
+            ...state,
+            width: width,
+            height: height
+        }));
+    }
+
     render() {
         const auth = this.props.auth;
         const wireframe = this.props.wireframe;
@@ -364,10 +375,11 @@ class EditScreen extends Component {
                             <h5>Are you sure you want to delete this Wireframe?</h5>
                         </Modal>
                     </h5>
-                    <div className="input-field">
+                    <div className="input-field small">
                         <label htmlFor="email" className={wireframe.name === "" ? "" : "active"}>Name</label>
-                        <input className="active" type="text" name="name" id="name" onChange={this.handleChange} value={wireframe.name} />
+                        <input className="active" type="text" name="name" id="name" onChange={this.handleChange} value={this.state.name} />
                     </div>
+                    <DimensionField width={this.state.width} height={this.state.height} updateDimensions={this.updateDimensions}></DimensionField>
                     <div className="control-collection">
                         <div className="rectangle control-demo" onClick={() => this.addDefaultControl("defaultContainer")}></div>
                         <label>Container</label>
@@ -384,7 +396,7 @@ class EditScreen extends Component {
                     </div>
                 </div> <br />
                 <PropertiesControl selectedControl={this.state.selectedControl} changeControlProps={(type, value) => { this.changeControlProps(type, value) }}></PropertiesControl>
-                <div className="wireframe" onClick={(e) => this.clearSelectionDetection(e)} onScroll={this.updateScrollOffsets}>
+                <div className="wireframe" style={{ width: this.state.width + "px", height: this.state.height + "px" }} onClick={(e) => this.clearSelectionDetection(e)} onScroll={this.updateScrollOffsets}>
                     {controls.map((control, index) => {
                         switch (control.type) {
                             case "container":
