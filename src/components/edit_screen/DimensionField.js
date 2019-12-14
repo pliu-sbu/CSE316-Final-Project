@@ -41,11 +41,11 @@ class DimensionField extends Component {
         return (
             <React.Fragment>
                 <div className="input-field small">
-                    <label htmlFor="email" className={this.state.width === "" ? "" : "active"}>Width</label>
+                    <label htmlFor="email" className={this.state.width === "" ? "small" : "active small"}>Width(Pixels)</label>
                     <input className="active" type="text" name="width" id="width" onChange={this.handleChange} value={this.state.width} />
                 </div>
                 <div className="input-field small">
-                    <label htmlFor="email" className={this.state.height === "" ? "" : "active"}>Height</label>
+                    <label htmlFor="email" className={this.state.height === "" ? "small" : "active small"}>Height(Pixels)</label>
                     <input className="active" type="text" name="height" id="height" onChange={this.handleChange} value={this.state.height} />
                 </div>
                 <button className="btn-small" onClick={this.updateDimensions} disabled={this.state.disableUpdate}>Update</button> <br /> <br />

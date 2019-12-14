@@ -176,6 +176,10 @@ class EditScreen extends Component {
                 height: this.props.wireframe ? this.props.wireframe.height : 500,
                 controls: this.props.wireframe ? this.props.wireframe.controls : null
             }))
+            if (!this.props.wireframe) {
+                this.markForDeletion = true;
+                return;
+            }
             if (!this.state.enableSave) this.controlsOnline = JSON.stringify(this.props.wireframe.controls);
             return;
         }
@@ -192,6 +196,7 @@ class EditScreen extends Component {
             ...state,
             [target.id]: target.value,
         }));
+        this.setState(state => ({ ...state, enableSave: true }));
     }
 
     handleWireframeDelete = () => {
@@ -309,6 +314,9 @@ class EditScreen extends Component {
             return control;
         });
         this.props.wireframeChange(this.props.wireframe.id, "controls", correctedControls);
+        this.props.wireframeChange(this.props.wireframe.id, "name", this.state.name);
+        this.props.wireframeChange(this.props.wireframe.id, "width", this.state.width);
+        this.props.wireframeChange(this.props.wireframe.id, "height", this.state.height);
         this.controlsOnline = null;
         this.setState(state => ({ ...state, enableSave: false, scale: 1 }));
     }
@@ -319,6 +327,7 @@ class EditScreen extends Component {
             width: width,
             height: height
         }));
+        this.setState(state => ({ ...state, enableSave: true }));
     }
 
     render() {
@@ -376,7 +385,7 @@ class EditScreen extends Component {
                         </Modal>
                     </h5>
                     <div className="input-field small">
-                        <label htmlFor="email" className={wireframe.name === "" ? "" : "active"}>Name</label>
+                        <label htmlFor="email" className={wireframe.name === "" ? "small" : "active small"}>Name</label>
                         <input className="active" type="text" name="name" id="name" onChange={this.handleChange} value={this.state.name} />
                     </div>
                     <DimensionField width={this.state.width} height={this.state.height} updateDimensions={this.updateDimensions}></DimensionField>

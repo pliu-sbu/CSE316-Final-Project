@@ -66,22 +66,26 @@ h5.grey-text.text-darken-3{
   margin-top:-10px !important;
   padding: 0 5px 10px 5px !important;
 }
-input[type=text]:not(.browser-default,.small),
-input[type=email]:not(.browser-default,.small),
-input[type=password]:not(.browser-default,.small),
-input[type=date]:not(.browser-default,.small),
+input[type=text]:not(.browser-default):not(.small),
+input[type=email]:not(.browser-default):not(.small),
+input[type=password]:not(.browser-default):not(.small),
+input[type=date]:not(.browser-default):not(.small),
 textarea.materialize-textarea{
   height: 3rem !important;
 }
-input[type=text]:not(.browser-default),
-input[type=email]:not(.browser-default),
-input[type=password]:not(.browser-default),
-input[type=date]:not(.browser-default),
+input[type=text]:not(.browser-default):not(.small),
+input[type=email]:not(.browser-default):not(.small),
+input[type=password]:not(.browser-default):not(.small),
+input[type=date]:not(.browser-default):not(.small),
 textarea.materialize-textarea{
   padding-left: 15px;
   padding-top: 15px;
 }
-.input-field > label{
+.input-field > label.small{
+  padding-left: 15px;
+  padding-top: 15px;
+}
+.input-field > label:not(.small){
   padding-left: 15px;
 }
 .fixed-action-btn{
@@ -136,6 +140,7 @@ span.card-content{
   position:absolute;
   left: 1%;
   float:left;
+  user-select: none;
 }
 
 .control-collection{
@@ -152,8 +157,13 @@ span.card-content{
 }
 
 .properties{
-  width:15%;
-  position:absolute;
-  left: 85%;
+  position:fixed;
+  left:0%;
+  top:0;
+  bottom:0;
   float:left;
+  z-index: 999;
+  padding: 5px 5px 5px 5px;
+  overflow-y:scroll;
+  overflow-x:hidden;
 }
