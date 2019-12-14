@@ -9,6 +9,8 @@ import { Modal, Button } from 'react-materialize';
 import PropertiesControl from './PropertiesControl';
 import ContainerControl from './ContainerControl';
 import LabelControl from './LabelControl';
+import ButtonControl from './ButtonControl';
+import TextfieldControl from './TextfieldControl';
 import DimensionField from './DimensionField';
 
 class EditScreen extends Component {
@@ -84,40 +86,40 @@ class EditScreen extends Component {
             "width": 63,
             "height": 23,
             "text": "Submit",
-            "font-size": 12,
+            "font-size": 14,
             "color": {
-                "r": 0,
-                "g": 0,
-                "b": 0,
+                "r": 255,
+                "g": 255,
+                "b": 255,
                 "a": 1
             },
             "border-color": {
-                "r": 128,
-                "g": 128,
-                "b": 128,
-                "a": 1
+                "r": 255,
+                "g": 255,
+                "b": 255,
+                "a": 0
             },
             "background-color": {
-                "r": 252,
-                "g": 252,
-                "b": 252,
+                "r": 38,
+                "g": 164,
+                "b": 152,
                 "a": 1
             },
-            "border-width": 1,
-            "border-radius": 0
+            "border-width": 0,
+            "border-radius": 10
         },
         defaultTextfield: {
             "type": "textfield",
             "x": 6,
             "y": 6,
-            "width": 50,
+            "width": 150,
             "height": 25,
-            "text": "",
-            "font-size": 12,
+            "text": "Input",
+            "font-size": 15,
             "color": {
-                "r": 0,
-                "g": 0,
-                "b": 0,
+                "r": 209,
+                "g": 209,
+                "b": 209,
                 "a": 1
             },
             "border-color": {
@@ -133,7 +135,7 @@ class EditScreen extends Component {
                 "a": 0
             },
             "border-width": 1,
-            "border-radius": 0
+            "border-radius": 3
         }
     }
 
@@ -396,11 +398,10 @@ class EditScreen extends Component {
                         <div className="control-demo" onClick={() => this.addDefaultControl("defaultLabel")}>Prompt for Input:</div>
                         <label>Label</label>
                         <br /><br />
-                        <button className="button-demo control-demo" disabled onClick={() => this.addDefaultControl("defaultButton")}>Submit</button><br />
+                        <div className="button-demo control-demo" onClick={() => this.addDefaultControl("defaultButton")}>Submit</div>
                         <label>Button</label>
                         <br /><br />
-                        <input className="input-demo control-demo" placeholder='Input' disabled onClick={() => this.addDefaultControl("defaultTextfield")}></input>
-                        <br />
+                        <div className="input-demo control-demo" placeholder='Input' onClick={() => this.addDefaultControl("defaultTextfield")}>Input</div>
                         <label>Textfield</label>
                     </div>
                 </div> <br />
@@ -428,6 +429,26 @@ class EditScreen extends Component {
                                         changeSize={(index, sizeObj) => { this.changeSize(index, sizeObj) }}
                                         scrollOffsets={this.state.scrollOffsets}
                                         scale={this.state.scale}></LabelControl>);
+                            case "button":
+                                return (
+                                    <ButtonControl key={index}
+                                        selectControl={() => this.setState(state => ({ ...state, selectedControl: control, selectedIndex: index }))}
+                                        index={index}
+                                        control={control}
+                                        changePosition={(index, posObj) => { this.changePosition(index, posObj) }}
+                                        changeSize={(index, sizeObj) => { this.changeSize(index, sizeObj) }}
+                                        scrollOffsets={this.state.scrollOffsets}
+                                        scale={this.state.scale}></ButtonControl>);
+                            case "textfield":
+                                return (
+                                    <TextfieldControl key={index}
+                                        selectControl={() => this.setState(state => ({ ...state, selectedControl: control, selectedIndex: index }))}
+                                        index={index}
+                                        control={control}
+                                        changePosition={(index, posObj) => { this.changePosition(index, posObj) }}
+                                        changeSize={(index, sizeObj) => { this.changeSize(index, sizeObj) }}
+                                        scrollOffsets={this.state.scrollOffsets}
+                                        scale={this.state.scale}></TextfieldControl>);
                             default:
                                 return "";
                         }

@@ -6,6 +6,13 @@ class PropertiesControl extends Component {
     state = {
         colorControl: "background-color"
     }
+    resetState = () => {
+        this.setState(state => ({
+            ...state,
+            colorControl: "background-color"
+        }));
+        return "background-color";
+    }
     render() {
         if (!this.props.selectedControl) return null;
         return (<div className="properties">
@@ -17,7 +24,7 @@ class PropertiesControl extends Component {
                 Font Size:
             <input className="font-size_prop" value={this.props.selectedControl['font-size'] || 0} onChange={(e) => { this.props.changeControlProps("font-size", parseInt(e.target.value) || 0) }}></input>
             </div>
-            <select id="colorTarget" className="browser-default" style={{ fontSize: 13.5, height: "2rem" }} value={this.state.colorControl} onChange={(e) => this.setState({ colorControl: e.target.options[e.target.selectedIndex].value })}>
+            <select id="colorTarget" className="browser-default" style={{ fontSize: 13.5, height: "2rem" }} value={this.props.selectedControl.type === "container" && this.state.colorControl === "color" ? this.resetState() : this.state.colorControl} onChange={(e) => this.setState({ colorControl: e.target.options[e.target.selectedIndex].value })}>
                 <option value="background-color"> Background color</option>
                 {this.props.selectedControl.type !== "container" ? <option value="color">Font color</option> : ""}
                 <option value="border-color">Border color</option>

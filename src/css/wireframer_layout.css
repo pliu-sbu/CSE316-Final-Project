@@ -147,7 +147,7 @@ span.card-content{
   text-align: center;
 }
 
-.rectangle{
+.control-demo{
   margin:auto;
 }
 
@@ -166,4 +166,5 @@ span.card-content{
   padding: 5px 5px 5px 5px;
   overflow-y:scroll;
   overflow-x:hidden;
+  user-select: none;
 }
