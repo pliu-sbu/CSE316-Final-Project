@@ -262,6 +262,74 @@
 			]
 		},
 		{
+			"key": 0,
+			"name": "test user diagram 1",
+			"uid":"Xhc0HGGs5vUP2OQbqiJfKSxHZ252",
+			"width": 500,
+			"height": 500,
+			"controls": [
+				{
+					"type": "container",
+					"x": 50,
+					"y": 50,
+					"width": 1000,
+					"height": 1000,
+					"border-color": {
+						"r": 0,
+						"g": 0,
+						"b": 0,
+						"a": 1
+					},
+					"background-color": {
+						"r": 255,
+						"g": 255,
+						"b": 255,
+						"a": 0
+					},
+					"border-width": 3,
+					"border-radius": 10
+				}
+			]
+		},
+		{
+			"key": 1,
+			"name": "test user diagram 2",
+			"uid":"Xhc0HGGs5vUP2OQbqiJfKSxHZ252",
+			"width": 500,
+			"height": 500,
+			"controls": [
+				{
+					"type": "textfield",
+					"x": 60,
+					"y": 60,
+					"width": 1000,
+					"height": 200,
+					"text": "haha",
+					"font-size": 12,
+					"color": {
+						"r": 0,
+						"g": 0,
+						"b": 255,
+						"a": 1
+					},
+					"border-color": {
+						"r": 0,
+						"g": 0,
+						"b": 0,
+						"a": 1
+					},
+					"background-color": {
+						"r": 255,
+						"g": 255,
+						"b": 255,
+						"a": 0
+					},
+					"border-width": 3,
+					"border-radius": 20
+				}
+			]
+		},
+		{
 			"key": 3,
 			"name": "user1 diagram4",
 			"width": 850,
