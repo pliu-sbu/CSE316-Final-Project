@@ -56,7 +56,9 @@ h5.grey-text.text-darken-3{
 
 .trashcan{
   padding: 0px ;
-  margin-top:19px !important;
+  float:right;
+  right:0%;
+  margin-top: 18px;
 }
 .save-btn{
   margin-top:-10px !important;

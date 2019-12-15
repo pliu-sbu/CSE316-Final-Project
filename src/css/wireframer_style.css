@@ -66,8 +66,11 @@ h5.grey-text.text-darken-3{
 }
 .trashcan{
   font-size: 2rem;
-  height:35px;
-  width:50px;
+  height:20px;
+  width:20px;
+  background-color: red;
+  z-index: 999;
+  line-height: 0.7;
 }
 .input-field > label:not(.browser-default):not(.small){
   font-size: 25px;

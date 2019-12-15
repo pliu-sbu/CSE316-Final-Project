@@ -32,7 +32,7 @@ export const registerHandler = (newUser, firebase) => (dispatch, getState, { get
     })).then(() => {
         dispatch(actionCreators.registerSuccess);
     }).catch((err) => {
-        dispatch(actionCreators.registerError);
+        dispatch({ type: 'REGISTER_ERROR', err });
     });
 };
 
@@ -111,17 +111,19 @@ export const wireframeChangeHandler = (id, field, to) => (dispatch, getState) =>
     batch.commit();
 };
 
-export const wireframeDeleteHandler = (wireframe) => (dispatch, getState) => {
+export const wireframeDeleteHandler = (id, index, uid) => (dispatch, getState) => {
     const fireStore = getFirestore();
     const batch = fireStore.batch();
-    fireStore.collection("wireframes").doc(wireframe.id).delete().then(function () {
+    fireStore.collection("wireframes").doc(id).delete().then(function () {
         console.log("Document successfully deleted!");
 
-        fireStore.collection("wireframes").where("uid", "==", wireframe.uid).get().then((querySnapshot) => {
+        fireStore.collection("wireframes").where("uid", "==", uid).get().then((querySnapshot) => {
             querySnapshot.docs.forEach((doc) => {
                 let docref = fireStore.collection('wireframes').doc(doc.id);
                 let wireframekey = doc.data().key;
-                batch.update(docref, { key: wireframekey - 1 });
+                if (wireframekey > index) {
+                    batch.update(docref, { key: wireframekey - 1 });
+                }
             });
         }).then(() => {
             batch.commit().then(() => {

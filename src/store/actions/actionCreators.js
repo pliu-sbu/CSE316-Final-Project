@@ -23,7 +23,8 @@ export const DELETE_WIREFRAME_ERROR = 'DELETE_WIREFRAME_ERROR';
 export function registerSuccess() {
     return { type: 'REGISTER_SUCCESS' }
 };
-export function registerError(error) { 
+export function registerError(error) {
+    console.log(error);
     return { type: 'REGISTER_ERROR', error }
 };
 export function loginSuccess() {
@@ -53,6 +54,6 @@ export function createWireframeError(error) {
 export function deleteWireframe() {
     return { type: 'DELETE_WIREFRAME' }
 };
-export function deleteWireframeError(error) { 
+export function deleteWireframeError(error) {
     return { type: 'DELETE_WIREFRAME_ERROR', error }
 };

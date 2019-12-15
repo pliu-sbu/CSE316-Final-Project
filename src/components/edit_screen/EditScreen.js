@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { firestoreConnect } from 'react-redux-firebase';
 import { wireframeChangeHandler } from '../../store/database/asynchHandler';
-import { wireframeDeleteHandler } from '../../store/database/asynchHandler';
 import { Modal, Button } from 'react-materialize';
 import PropertiesControl from './PropertiesControl';
 import ContainerControl from './ContainerControl';
@@ -143,7 +142,7 @@ class EditScreen extends Component {
         try {
             e.stopImmediatePropagation();
             let controls = this.state.controls;
-            if (e.keyCode === 8 && this.state.selectedControl && !(document.activeElement instanceof HTMLInputElement)) {
+            if ((e.keyCode === 8 || e.keyCode === 46) && this.state.selectedControl && !(document.activeElement instanceof HTMLInputElement)) {
                 controls.splice(this.state.selectedIndex, 1);
                 this.setState(state => ({
                     ...state,
@@ -199,11 +198,6 @@ class EditScreen extends Component {
             [target.id]: target.value,
         }));
         this.setState(state => ({ ...state, enableSave: true }));
-    }
-
-    handleWireframeDelete = () => {
-        this.markForDeletion = true;
-        this.props.wireframeDelete(this.props.wireframe);
     }
 
     changePosition = (index, posObj) => {
@@ -371,20 +365,6 @@ class EditScreen extends Component {
                         >
                             <h5>Are you sure you want to close this Wireframe without saving?</h5>
                         </Modal>
-                        &nbsp;&nbsp;
-                    <Modal
-                            header="Confirm Deleting Wireframe"
-                            trigger={<p className="btn trashcan">🗑</p>}
-                            actions={
-                                <div>
-                                    <Button modal="close" className="red darken-2" onClick={this.handleWireframeDelete}>Confirm</Button>
-                                    &nbsp;&nbsp;&nbsp;
-                                <Button modal="close">dismiss</Button>
-                                </div>
-                            }
-                        >
-                            <h5>Are you sure you want to delete this Wireframe?</h5>
-                        </Modal>
                     </h5>
                     <div className="input-field small">
                         <label htmlFor="email" className={wireframe.name === "" ? "small" : "active small"}>Name</label>
@@ -482,8 +462,7 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-    wireframeChange: (id, field, to) => dispatch(wireframeChangeHandler(id, field, to)),
-    wireframeDelete: (wireframe) => dispatch(wireframeDeleteHandler(wireframe))
+    wireframeChange: (id, field, to) => dispatch(wireframeChangeHandler(id, field, to))
 });
 
 export default compose(
